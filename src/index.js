@@ -13,17 +13,24 @@ const startBtnRef = document.querySelector('[data-action = "start"]')
 const stopBtnRef = document.querySelector('[data-action = "stop"]')
 const bodyRef = document.querySelector('body')
 
-startBtnRef.addEventListener('click', onBackgroundColor)
+startBtnRef.addEventListener('click', onStartBackgroundColor)
+stopBtnRef.addEventListener('click', onStopBackgroundColor)
 
-function onBackgroundColor() {
-    let actingColor = null;
+const randomIntegerFromInterval = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
 
+let interval = null;
 
-
-    setInterval(() => {
-        const BGColor = colors[Math.floor(Math.random() * colors.length)];
-        actingColor = BGColor;
-        bodyRef.style = `background-color: ${actingColor};`
+function onStartBackgroundColor() {
+    interval = setInterval(() => {
+        const GenerateColor = colors[randomIntegerFromInterval(0, colors.length - 1)];
+        bodyRef.style = `background-color: ${GenerateColor};`
     }, 1000);
-
     startBtnRef.disabled = true;
+}
+
+function onStopBackgroundColor() {
+    clearInterval(interval);
+    startBtnRef.disabled = false;
+}
